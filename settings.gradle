@@ -1,1 +1,1 @@
-include ':app', ':pepper-android-3e1cd5d8f2344f968397eb9de6d37f5965e2ea04'
+include ':app', ':pepper-android'

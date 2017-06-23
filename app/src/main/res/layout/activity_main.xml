@@ -27,6 +27,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Start Application"
-        android:onClick="startAssistenModeBtn"/>
+        android:onClick="alMemoryTestBtn"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Test Speech Recognition"
+        android:onClick="asrTestBtn"/>
 
 </LinearLayout>

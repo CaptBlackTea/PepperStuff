@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PepperStuff.iml" filepath="$PROJECT_DIR$/PepperStuff.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/pepper-android-3e1cd5d8f2344f968397eb9de6d37f5965e2ea04/pepper-android-3e1cd5d8f2344f968397eb9de6d37f5965e2ea04.iml" filepath="$PROJECT_DIR$/pepper-android-3e1cd5d8f2344f968397eb9de6d37f5965e2ea04/pepper-android-3e1cd5d8f2344f968397eb9de6d37f5965e2ea04.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pepper-android/pepper-android.iml" filepath="$PROJECT_DIR$/pepper-android/pepper-android.iml" />
     </modules>
   </component>
 </project>
