@@ -19,6 +19,7 @@ import de.lilithwittmann.pepperandroid.api.ALDialogProxy;
 import de.lilithwittmann.pepperandroid.api.ALMemory;
 import de.lilithwittmann.pepperandroid.api.ALSpeechRecognition;
 import de.lilithwittmann.pepperandroid.interaction.Say;
+import de.lilithwittmann.pepperandroid.interaction.SpeechRecognition;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 	private PepperSession startPepperSession() {
-		pepperSession = new PepperSession();
+		pepperSession = new PepperSession(this);
 		pepperSession.connect();
 		Log.d(TAG, "==== Pepper connected: " + pepperSession.isConnected());
 		return pepperSession;
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 		super.onStart();
 		Log.d(TAG, "onStart: Yay");
 		// create a new pepper session
-		pepper = new PepperSession();
+		pepper = new PepperSession(this);
 		pepper.connect();
 
 //		pepperSession = new PepperSession();
@@ -152,38 +153,44 @@ public class MainActivity extends AppCompatActivity {
 
 	public void asrTestBtn(View view) throws Exception {
 		Log.d(TAG, "Pepper connected: " + pepper.isConnected());
-		ALMemory alm = new ALMemory(pepper);
-		ALSpeechRecognition alsr = new ALSpeechRecognition(pepper);
-		ALDialogProxy alDialogProxy = new ALDialogProxy(pepper);
-
-		List<String> topicsList = new ArrayList<String>();
-		topicsList = (List<String>) alDialogProxy.getActivatedTopics().get();
-
-		Log.d(TAG, "Activated Topics: " + alDialogProxy.getActivatedTopics());
-
-		for(String topic : topicsList){
-			Log.d(TAG, "Topic: " + topic);
-			alDialogProxy.deactivateTopic(topic);
-			Log.d(TAG, "Topic deleted");
-
-		}
-
-		Log.d(TAG, "Activated Topics: " + alDialogProxy.getActivatedTopics());
+		SpeechRecognition speechRecognition = new SpeechRecognition(pepper);
+//		ALMemory alm = new ALMemory(pepper);
+//		ALSpeechRecognition alsr = new ALSpeechRecognition(pepper);
+//		ALDialogProxy alDialogProxy = new ALDialogProxy(pepper);
+//
+//		speechRecognition.clearActivatedTopics();
+//		List<String> topicsList = new ArrayList<String>();
+//		topicsList = (List<String>) alDialogProxy.getActivatedTopics().get();
+//
+//		Log.d(TAG, "Activated Topics: " + alDialogProxy.getActivatedTopics());
+//
+//		for(String topic : topicsList){
+//			Log.d(TAG, "Topic: " + topic);
+//			alDialogProxy.deactivateTopic(topic);
+//			Log.d(TAG, "Topic deleted");
+//
+//		}
+//
+//		Log.d(TAG, "Activated Topics: " + alDialogProxy.getActivatedTopics());
 
 		final Say say = new Say(pepper);
 		say.setLanguage(say.LANGUAGE_ENGLISH);
+
 
 		final ArrayList<String> vocabulary = new ArrayList<String>();
 		vocabulary.add("yes");
 		vocabulary.add("no");
 		vocabulary.add("fuck you");
 
-		alsr.setVocabulary(vocabulary, true);
-		AnyObject asrService = (AnyObject) alm.call("subscriber", "WordRecognized").get();
-		asrService.connect("signal", new QiSignalListener() {
+//		alsr.setVocabulary(vocabulary, true);
+
+		speechRecognition.setVocabulary(vocabulary);
+
+//		AnyObject asrService = (AnyObject) alm.call("subscriber", "WordRecognized").get();
+		speechRecognition.connectToSignalReceiver("signal", new QiSignalListener() {
 			@Override
 			public void onSignalReceived(Object... objects) {
-//				say.say("I received a signal. I know " + vocabulary.size() + "words.");
+				say.say("I received: ");
 //				for (String v : vocabulary) {
 //					say.say(v);
 //				}
@@ -192,6 +199,8 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 
+
 	}
+
 
 }
