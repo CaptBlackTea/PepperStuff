@@ -18,6 +18,7 @@ import de.lilithwittmann.pepperandroid.PepperSession;
 import de.lilithwittmann.pepperandroid.api.ALDialogProxy;
 import de.lilithwittmann.pepperandroid.api.ALMemory;
 import de.lilithwittmann.pepperandroid.api.ALSpeechRecognition;
+import de.lilithwittmann.pepperandroid.api.ALTextToSpeech;
 import de.lilithwittmann.pepperandroid.interaction.Say;
 import de.lilithwittmann.pepperandroid.interaction.SpeechRecognition;
 
@@ -83,12 +84,16 @@ public class MainActivity extends AppCompatActivity {
 //		pepperSession.connect();
 //		Log.d(TAG, "==== Pepper connected: " + pepperSession.isConnected());
 //
-//		try {
-//			ALTextToSpeech textToSpeech = new ALTextToSpeech(pepperSession);
-//			textToSpeech.say("I am singing in the rain");
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+		try {
+			ALTextToSpeech textToSpeech = new ALTextToSpeech(pepper);
+			textToSpeech.say("There once was a man from Peru\n" +
+					"Who had a lot of growing up to do,\n" +
+					"He’d ring a doorbell,\n" +
+					"then run like hell,\n" +
+					"Until the owner shot him with a 22.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -153,25 +158,25 @@ public class MainActivity extends AppCompatActivity {
 
 	public void asrTestBtn(View view) throws Exception {
 		Log.d(TAG, "Pepper connected: " + pepper.isConnected());
-		SpeechRecognition speechRecognition = new SpeechRecognition(pepper);
-//		ALMemory alm = new ALMemory(pepper);
-//		ALSpeechRecognition alsr = new ALSpeechRecognition(pepper);
-//		ALDialogProxy alDialogProxy = new ALDialogProxy(pepper);
+//		SpeechRecognition speechRecognition = new SpeechRecognition(pepper);
+		ALMemory alm = new ALMemory(pepper);
+		ALSpeechRecognition alsr = new ALSpeechRecognition(pepper);
+		ALDialogProxy alDialogProxy = new ALDialogProxy(pepper);
 //
 //		speechRecognition.clearActivatedTopics();
-//		List<String> topicsList = new ArrayList<String>();
-//		topicsList = (List<String>) alDialogProxy.getActivatedTopics().get();
+		List<String> topicsList = new ArrayList<String>();
+		topicsList = (List<String>) alDialogProxy.getActivatedTopics().get();
 //
-//		Log.d(TAG, "Activated Topics: " + alDialogProxy.getActivatedTopics());
+		Log.d(TAG, "Activated Topics: " + alDialogProxy.getActivatedTopics());
 //
-//		for(String topic : topicsList){
-//			Log.d(TAG, "Topic: " + topic);
-//			alDialogProxy.deactivateTopic(topic);
-//			Log.d(TAG, "Topic deleted");
-//
-//		}
-//
-//		Log.d(TAG, "Activated Topics: " + alDialogProxy.getActivatedTopics());
+		for(String topic : topicsList){
+			Log.d(TAG, "Topic: " + topic);
+			alDialogProxy.deactivateTopic(topic);
+			Log.d(TAG, "Topic deleted");
+
+		}
+
+		Log.d(TAG, "Activated Topics: " + alDialogProxy.getActivatedTopics());
 
 		final Say say = new Say(pepper);
 		say.setLanguage(say.LANGUAGE_ENGLISH);
@@ -182,15 +187,20 @@ public class MainActivity extends AppCompatActivity {
 		vocabulary.add("no");
 		vocabulary.add("fuck you");
 
-//		alsr.setVocabulary(vocabulary, true);
+		alsr.setVocabulary(vocabulary, true);
 
-		speechRecognition.setVocabulary(vocabulary);
+//		speechRecognition.setVocabulary(vocabulary, true);
 
-//		AnyObject asrService = (AnyObject) alm.call("subscriber", "WordRecognized").get();
-		speechRecognition.connectToSignalReceiver("signal", new QiSignalListener() {
+		Log.d(TAG, "###### speech recognition start ######");
+		AnyObject asrService = (AnyObject) alm.call("subscriber", "WordRecognized").get();
+		asrService.connect("signal", new QiSignalListener() {
 			@Override
 			public void onSignalReceived(Object... objects) {
-				say.say("I received: ");
+				say.say("I received stuff");
+				Log.d(TAG, "###### Objects: " + objects.getClass().getSimpleName());
+				for(Object o : objects){
+					Log.d(TAG, o.toString());
+				}
 //				for (String v : vocabulary) {
 //					say.say(v);
 //				}
@@ -198,6 +208,23 @@ public class MainActivity extends AppCompatActivity {
 				Log.d("ASR", objects[0].toString());
 			}
 		});
+//		speechRecognition.connectToSignalReceiver("signal", new QiSignalListener() {
+//			@Override
+//			public void onSignalReceived(Object... objects) {
+//				say.say("I received stuff");
+//				Log.d(TAG, "###### Objects: " + objects.getClass().getSimpleName());
+//				for(Object o : objects){
+//					Log.d(TAG, o.toString());
+//				}
+////				for (String v : vocabulary) {
+////					say.say(v);
+////				}
+////				say.say("That is it");
+//				Log.d("ASR", objects[0].toString());
+//			}
+//		});
+
+
 
 
 	}
