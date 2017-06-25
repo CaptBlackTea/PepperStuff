@@ -30,6 +30,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.1.0'
     testCompile 'junit:junit:4.12'
 
+    compile 'com.google.guava:guava:17.0'
 //    compile project(path: ':pepper-android-3e1cd5d8f2344f968397eb9de6d37f5965e2ea04')
 //    compile project(path: ':pepper-android-master')
     compile project(path: ':pepper-android')

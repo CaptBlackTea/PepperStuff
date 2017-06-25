@@ -38,5 +38,10 @@
         android:layout_height="wrap_content"
         android:text="Stop Speech Recognition"
         android:onClick="closeSpeechRecognition"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Test Dialog"
+        android:onClick="testDialog"/>
 
 </LinearLayout>
